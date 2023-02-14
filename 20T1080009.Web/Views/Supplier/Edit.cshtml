@@ -1,0 +1,83 @@
+﻿
+@{
+
+}
+
+<div class="box box-primary">
+    <div class="box-body">
+        <form class="form-horizontal">
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Tên nhà cung cấp:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" placeholder="" autofocus>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Tên giao dịch:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Địa chỉ:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Điện thoại:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Quốc gia:</label>
+                <div class="col-sm-10">
+                    <select class="form-control">
+                        <option>--- Chọn quốc gia ---</option>
+                        @foreach (var item in _20T1080009.BusinessLayers.CommonDataService.ListOfCountries()) {
+                            <option value="item.CountryName">@item.CountryName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Tỉnh/Thành phố:</label>
+                <div class="col-sm-10">
+                    <select class="form-control">
+                        <option>--- Chọn thành phố ---</option>
+                        <option>Hà Nội</option>
+                        <option>Huế</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Mã bưu chính:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10 text-right">
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-save" style="margin-right: 2px;"></i> Lưu dữ liệu
+                    </button>
+
+                    <a href="~/Supplier" class="btn btn-default">
+                        Quay lại
+                    </a>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

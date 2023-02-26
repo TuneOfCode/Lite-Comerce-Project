@@ -1,0 +1,57 @@
+﻿@model _20T1080009.Web.Models.ShipperSearchOutput
+@{
+    Layout = null;
+}
+
+<p style="margin-top: 10px; text-align: center; color: green;">
+    Có <strong>@Model.RowCount</strong> người giao hàng trong tổng số <b>@Model.TotalPages</b> trang
+</p>
+
+@*Bảng hiển thị kết quả*@
+<div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="bg-success">
+            <tr>
+                <th>Tên người giao hàng</th>
+                <th>Số điện thoại</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Data) {
+                <tr>
+                    <td>@item.ShipperName</td>
+                    <td>@item.Phone</td>
+                    <td>
+                        @*Nút sửa dữ liệu*@
+                        <button class="btn btn-xs btn-primary" onclick="showShipperModal('/Shipper/Edit/@item.ShipperID')"
+                                onmouseover="showShipperModal('/Shipper/Edit/@item.ShipperID')"
+                                data-toggle="modal" data-target="#shipperModal-@item.ShipperID">
+                            <i class="fa fa-edit"></i>
+                        </button>
+
+                        @*Nút xoá dữ liệu*@
+                        <button class="btn btn-xs btn-danger" onclick="showShipperModal('/Shipper/Delete/@item.ShipperID')"
+                                onmouseover="showShipperModal('/Shipper/Delete/@item.ShipperID')"
+                                data-toggle="modal" data-target="#deleteShipperModal-@item.ShipperID">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@*Phân trang*@
+<div class="text-center">
+    <ul class="pagination">
+        @for (int i = 1; i <= Model.TotalPages; i++) {
+            if (i == Model.Page) {
+                <li class="active"><a>@i</a></li>
+            } else {
+                <li><a href="javascript:;" onclick="doSearch(@i)">@i</a></li>
+            }
+        }
+    </ul>
+</div>

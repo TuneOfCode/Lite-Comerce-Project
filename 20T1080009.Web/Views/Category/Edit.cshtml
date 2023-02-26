@@ -1,44 +1,47 @@
-﻿
+﻿@model _20T1080009.DomainModels.Category
 @{
-    ViewBag.Title = "Bổ sung/Cập nhật loại hàng";
+    Layout = null;
 }
 
 
 <!-- Hiển thị nổi -->
-<div class="modal fade" id="categoryModal" role="dialog">
+<div class="modal fade" id="categoryModal-@Model.CategoryID" role="dialog">
     <div class="modal-dialog">
 
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <a class="close" data-dismiss="modal">&times;</a>
                 <h4 class="modal-title">@ViewBag.Title</h4>
             </div>
-            <form>
+            <form action="~/Category/Save" method="post">
+                @Html.AntiForgeryToken()
                 <div class="modal-body">
-
+                    @Html.HiddenFor(m => m.CategoryID)
+                    @*<input type="hidden" name="CategoryID" value="@Model.CategoryID" />*@
                     <div class="form-group">
                         <label class="control-label">Tên loại hàng:</label>
-                        <input type="text" class="form-control" placeholder="" autofocus>
+                        @Html.TextBoxFor(m => m.CategoryName, new { @class = "form-control",
+                           @autofocus = "true", @required = "true",
+                           @oninvalid = "this.setCustomValidity('Tên loại hàng không được để trống')",
+                           @oninput = "setCustomValidity('')"
+                        })
+                        @Html.ValidationMessageFor(m => m.CategoryName, "", new { @style = "color: #f00;" })
+                        @*<input type="text" class="form-control" name="CategoryName" value="@Model.CategoryName" placeholder="" autofocus>*@
                     </div>
 
                     <div class="form-group">
                         <label class="control-label">Mô tả:</label>
-                        <input type="text" class="form-control" placeholder="" />
+                        @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+                        @*<input type="text" class="form-control" name="Description" value="@Model.Description" placeholder="" />*@
                     </div>
-
-
-                    <div class="form-group">
-                        <label class="control-label">Mã loại hàng gốc:</label>
-                        <input type="text" class="form-control" placeholder="" autofocus>
-                    </div>
-
 
                 </div>
                 <div class="modal-footer">
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10 text-right">
 
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit"
+                                    class="btn btn-primary">
                                 <i class="fa fa-save" style="margin-right: 2px;"></i> Lưu dữ liệu
                             </button>
 

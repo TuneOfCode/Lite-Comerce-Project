@@ -1,11 +1,11 @@
-﻿
+﻿@model _20T1080009.DomainModels.Shipper
 @{
-    ViewBag.Title = "Xoá người giao hàng";
+    Layout = null;
 }
 
 
 <!-- Hiển thị nổi -->
-<div class="modal fade" id="deleteShipperModal" role="dialog">
+<div class="modal fade" id="deleteShipperModal-@Model.ShipperID" role="dialog">
     <div class="modal-dialog">
 
         <div class="modal-content">
@@ -13,17 +13,17 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">@ViewBag.Title</h4>
             </div>
-            <form>
+            <form action="~/Shipper/Delete/@Model.ShipperID" method="post">
                 <div class="modal-body">
 
                     <div class="form-group">
                         <label class="control-label">Tên người giao hàng:</label>
-                        <p class="form-control-static">Tên người giao hàng</p>
+                        <p class="form-control-static">@Model.ShipperName</p>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label">Số điện thoại:</label>
-                        <p class="form-control-static">Số điện thoại</p>
+                        <p class="form-control-static">@Model.Phone</p>
                     </div>
 
                 </div>

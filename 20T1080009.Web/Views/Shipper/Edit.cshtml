@@ -1,29 +1,45 @@
-﻿
+﻿@model _20T1080009.DomainModels.Shipper
 @{
-    ViewBag.Title = "Bổ sung/Cập nhật người giao hàng";
+    Layout = null;
 }
 
 
 <!-- Hiển thị nổi -->
-<div class="modal fade" id="shipperModal" role="dialog">
+<div class="modal fade" id="shipperModal-@Model.ShipperID" role="dialog">
     <div class="modal-dialog">
 
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">@ViewBag.Title</h4>
+                <h4 class="modal-title">Cập nhật một người giao hàng</h4>
             </div>
-            <form>
+            <form action="~/Shipper/Save" method="post">
+                @Html.AntiForgeryToken()
                 <div class="modal-body">
-
+                    <input type="hidden" name="ShipperID" value="@Model.ShipperID" />
                     <div class="form-group">
                         <label class="control-label">Tên người giao hàng:</label>
-                        <input type="text" class="form-control" placeholder="" autofocus>
+                        @Html.TextBoxFor(m => m.ShipperName, new {
+                            @class = "form-control",
+                           @autofocus = "true",
+                            @required = "true",
+                           @oninvalid = "this.setCustomValidity('Tên người giao hàng không được để trống')",
+                           @oninput = "setCustomValidity('')"
+                        })
+                        @Html.ValidationMessageFor(m => m.ShipperName, "", new { @style = "color: #f00;" })
+                        @*<input type="text" class="form-control" name="ShipperName" value="@Model.ShipperName" placeholder="" autofocus>*@
                     </div>
 
                     <div class="form-group">
                         <label class="control-label">Số điện thoại:</label>
-                        <input type="text" class="form-control" placeholder="" />
+                        @Html.TextBoxFor(m => m.Phone, new {
+                            @class = "form-control",
+                            @required = "@required",
+                           @oninvalid = "this.setCustomValidity('Số điện thoại của người giao hàng không được để trống')",
+                           @oninput = "setCustomValidity('')"
+                        })
+                        @Html.ValidationMessageFor(m => m.Phone, "", new { @style = "color: #f00;" })
+                        @*<input type="text" class="form-control" name="Phone" value="@Model.Phone" placeholder="" />*@
                     </div>
 
                 </div>

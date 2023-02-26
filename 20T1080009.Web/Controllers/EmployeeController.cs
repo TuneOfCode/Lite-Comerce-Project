@@ -94,7 +94,11 @@ namespace _20T1080009.Web.Controllers {
             if (birthDate == null || string.IsNullOrWhiteSpace(birthDateFormat)) {
                 ModelState.AddModelError(nameof(birthDate), "Vui lòng điền đầy đủ ngày tháng năm sinh");
             } else {
-                data.BirthDate = birthDate.Value;
+                if (birthDate.Value < SqlDateTime.MinValue.Value || birthDate.Value > SqlDateTime.MaxValue.Value) {
+                    ModelState.AddModelError(nameof(birthDate), "Ngày tháng năm sinh không hợp lệ");
+                } else {
+                    data.BirthDate = birthDate.Value;
+                }
             }
 
             if (UploadPhoto != null) {
@@ -103,11 +107,11 @@ namespace _20T1080009.Web.Controllers {
                 string fileName = $"{DateTime.Now.Ticks}-{UploadPhoto.FileName}";
                 string filePath = System.IO.Path.Combine(storage, fileName);
                 UploadPhoto.SaveAs(filePath);
-                data.Photo = $"{STORAGE_UPLOAD_FILE_EMPLOYEE}/{fileName}";
+                data.Photo = $"/{STORAGE_UPLOAD_FILE_EMPLOYEE}/{fileName}";
             }
             // kiểm tra xem thử email có bị trùng hay không?
             var employees = CommonDataService.ListOfEmployees(data.Email);
-            if (employees.Count > 0)
+            if (employees.Count > 0 && data.EmployeeID == 0)
                 ModelState.AddModelError(nameof(data.Email), "Vui lòng sử dụng email khác");
             else {
                 data.Email = data.Email;

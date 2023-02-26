@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -16,7 +17,7 @@ namespace _20T1080009.Web {
         /// <param name="format"></param>
         /// <returns></returns>
         public static DateTime? DMYStingToDateTime(string s, string format="d/M/yyyy") { 
-            try { 
+            try {
                 return DateTime.ParseExact(s, format, CultureInfo.InvariantCulture);
             } catch {
                 return null;

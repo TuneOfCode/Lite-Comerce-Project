@@ -1,6 +1,7 @@
 ﻿using _20T1080009.DomainModels;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,7 @@ namespace _20T1080009.DataLayers.SQLServer {
                             UserName = Convert.ToString(dbReader["Email"]),
                             FullName = $"{dbReader["FirstName"]} {dbReader["LastName"]}",
                             Email = Convert.ToString(dbReader["Email"]),
+                            Photo = Convert.ToString(dbReader["Photo"]),
                             Password = "",
                             RoleNames = ""
                         };
@@ -59,7 +61,24 @@ namespace _20T1080009.DataLayers.SQLServer {
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
         public bool ChangePassword(string userName, string oldPassword, string newPassword) {
-            throw new NotImplementedException();
+            bool result = false;
+            // so sánh mật khẩu cũ trong database
+            UserAccount userAccount = Authorize(userName, oldPassword);
+            if (userAccount == null) return result;
+            using (SqlConnection connection = OpenConnection()) {
+                SqlCommand cmd = new SqlCommand();
+                // cập nhật mật khẩu mới
+                cmd.CommandText = @"UPDATE Employees
+                                    SET Password = @Password
+                                    WHERE Email = @Email";
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = connection;
+                cmd.Parameters.AddWithValue("@Password", newPassword);
+                cmd.Parameters.AddWithValue("@Email", userName);
+                result = cmd.ExecuteNonQuery() > 0;
+                connection.Close();
+            };
+            return result;
         }
     }
 }

@@ -18,26 +18,31 @@
 
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-                
+                @{ 
+                    var userAccount = Converter.CookieToUserAccount(User.Identity.Name);
+                }
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="https://lh3.googleusercontent.com/-1I4LrFbotiw/AAAAAAAAAAI/AAAAAAAAAAA/APmPUbFMmKPT-5hnaBvkj12hhHZfb7WYDg/s48-c/photo.jpg" class="user-image" alt="User Image">
-                        <span class="hidden-xs">@User.Identity.Name</span>
+                        <img src="@userAccount.Photo" class="user-image" alt="User Image">
+                        <span class="hidden-xs">@userAccount.FullName</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="https://lh3.googleusercontent.com/-1I4LrFbotiw/AAAAAAAAAAI/AAAAAAAAAAA/APmPUbFMmKPT-5hnaBvkj12hhHZfb7WYDg/s48-c/photo.jpg" class="img-circle" alt="User Image">
+                            <img src="@userAccount.Photo" class="img-circle" alt="User Image">
 
                             <p>
-                                @User.Identity.Name
+                                @userAccount.FullName
                             </p>
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
-                            <div class="pull-left">
+                            @*<div class="pull-left">
                                 <a href="#" class="btn btn-default btn-flat">Thông tin tài khoản</a>
+                            </div>*@
+                            <div class="pull-left">
+                                <a href="~/Account/ChangePassword" class="btn btn-default btn-flat">Thay đổi mật khẩu</a>
                             </div>
                             <div class="pull-right">
                                 <a href="~/Account/Logout" class="btn btn-default btn-flat">Đăng xuất</a>

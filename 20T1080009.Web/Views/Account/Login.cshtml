@@ -38,11 +38,12 @@
         <!-- /.login-logo -->
         <div class="login-box-body">
             <p class="login-box-msg">Đăng nhập vào <b>TuneOfCode Shop</b></p>
-            @Html.ValidationSummary("", new {@style="color: #f00;"})
+            @Html.ValidationSummary("", new { @style = "color: #f00; list-style: none; text-align: center" })
             <form action="~/Account/Login" method="post">
                 @Html.AntiForgeryToken()
                 <div class="form-group has-feedback">
-                    <input type="email" name="userName" class="form-control" value="@ViewBag.UserName" placeholder="Email" autofocus>
+                    <input type="email" name="userName" class="form-control" value="@ViewBag.UserName" placeholder="Email"
+                           autofocus="autofocus">
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
@@ -70,13 +71,17 @@
     <script>
         $(function () {
             /*$('input[type="email"]').focus();*/
+            var input = $("input[autofocus='autofocus']");
+            var len = input.val().length;
+            input[0].focus();
+            input[0].setSelectionRange(len, len);
             $('input').iCheck({
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',
                 increaseArea: '20%' /* optional */
             });
-
-        });</script>
+        });
+    </script>
 </body>
 </html>
 

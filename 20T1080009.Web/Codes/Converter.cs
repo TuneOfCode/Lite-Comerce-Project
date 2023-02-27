@@ -1,4 +1,6 @@
-﻿using System;
+﻿using _20T1080009.DomainModels;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Globalization;
@@ -19,6 +21,18 @@ namespace _20T1080009.Web {
         public static DateTime? DMYStingToDateTime(string s, string format="d/M/yyyy") { 
             try {
                 return DateTime.ParseExact(s, format, CultureInfo.InvariantCulture);
+            } catch {
+                return null;
+            }
+        }
+        /// <summary>
+        /// Hàm chuyển đổi từ kiểu object sang kiểu chuỗi
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns></returns>
+        public static UserAccount CookieToUserAccount(string s) {
+            try {
+                return JsonConvert.DeserializeObject<UserAccount>(s);
             } catch {
                 return null;
             }

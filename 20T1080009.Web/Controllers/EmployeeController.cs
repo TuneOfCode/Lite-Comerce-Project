@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using System.Web.UI;
 
 namespace _20T1080009.Web.Controllers {
+    [Authorize]
     public class EmployeeController : Controller {
         private const int PAGE_SIZE = 4;
         private const string SESSION_CONDITION = "EmployeeCondition";
@@ -79,7 +80,7 @@ namespace _20T1080009.Web.Controllers {
         /// <returns></returns>
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult Save(Employee data, string Birthday, HttpPostedFileBase UploadPhoto) {
+        public ActionResult Save(Employee data, string birthday, HttpPostedFileBase uploadPhoto) {
             // kiểm tra tính hợp lệ của dữ liệu
             if (string.IsNullOrWhiteSpace(data.FirstName)) {
                 ModelState.AddModelError(nameof(data.FirstName), "Họ và tên đệm không được để trống");
@@ -88,25 +89,23 @@ namespace _20T1080009.Web.Controllers {
                 ModelState.AddModelError(nameof(data.LastName), "Tên không được để trống");
             }
 
-            DateTime? birthDate = Converter.DMYStingToDateTime(Birthday);
-            string birthDateFormat = data.BirthDate.ToString();
+            DateTime? birthDate = Converter.DMYStingToDateTime(birthday);
 
-            if (birthDate == null || string.IsNullOrWhiteSpace(birthDateFormat)) {
-                ModelState.AddModelError(nameof(birthDate), "Vui lòng điền đầy đủ ngày tháng năm sinh");
+            if (birthDate == null) {
+                ModelState.AddModelError(nameof(birthDate), $"Định dạng ngày {birthDate} không hợp lệ");
+            } else if (birthDate.Value < SqlDateTime.MinValue.Value || birthDate.Value > SqlDateTime.MaxValue.Value) {
+                ModelState.AddModelError(nameof(birthDate),
+                    $"Ngày tháng năm sinh hợp lệ từ {SqlDateTime.MinValue.Value} đến {SqlDateTime.MaxValue.Value}");
             } else {
-                if (birthDate.Value < SqlDateTime.MinValue.Value || birthDate.Value > SqlDateTime.MaxValue.Value) {
-                    ModelState.AddModelError(nameof(birthDate), "Ngày tháng năm sinh không hợp lệ");
-                } else {
-                    data.BirthDate = birthDate.Value;
-                }
+                data.BirthDate = birthDate.Value;
             }
 
-            if (UploadPhoto != null) {
+            if (uploadPhoto != null) {
 
                 string storage = Server.MapPath($"~/{STORAGE_UPLOAD_FILE_EMPLOYEE}");
-                string fileName = $"{DateTime.Now.Ticks}-{UploadPhoto.FileName}";
+                string fileName = $"{DateTime.Now.Ticks}-{uploadPhoto.FileName}";
                 string filePath = System.IO.Path.Combine(storage, fileName);
-                UploadPhoto.SaveAs(filePath);
+                uploadPhoto.SaveAs(filePath);
                 data.Photo = $"/{STORAGE_UPLOAD_FILE_EMPLOYEE}/{fileName}";
             }
             // kiểm tra xem thử email có bị trùng hay không?

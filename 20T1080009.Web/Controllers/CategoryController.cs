@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Web.UI;
 
 namespace _20T1080009.Web.Controllers {
+    [Authorize]
     public class CategoryController : Controller {
         private const int PAGE_SIZE = 5;
         private const string SESSION_CONDITION = "CategoryCondition";

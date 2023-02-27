@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace _20T1080009.Web.Controllers {
+    [Authorize]
     public class HomeController : Controller {
         public ActionResult Index() {
             return View();

@@ -23,7 +23,7 @@
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="https://lh3.googleusercontent.com/-1I4LrFbotiw/AAAAAAAAAAI/AAAAAAAAAAA/APmPUbFMmKPT-5hnaBvkj12hhHZfb7WYDg/s48-c/photo.jpg" class="user-image" alt="User Image">
-                        <span class="hidden-xs">Trần Thanh Tú</span>
+                        <span class="hidden-xs">@User.Identity.Name</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
@@ -31,7 +31,7 @@
                             <img src="https://lh3.googleusercontent.com/-1I4LrFbotiw/AAAAAAAAAAI/AAAAAAAAAAA/APmPUbFMmKPT-5hnaBvkj12hhHZfb7WYDg/s48-c/photo.jpg" class="img-circle" alt="User Image">
 
                             <p>
-                                Trần Thanh Tú
+                                @User.Identity.Name
                             </p>
                         </li>
                         <!-- Menu Footer-->
@@ -40,7 +40,7 @@
                                 <a href="#" class="btn btn-default btn-flat">Thông tin tài khoản</a>
                             </div>
                             <div class="pull-right">
-                                <a href="#" class="btn btn-default btn-flat">Đăng xuất</a>
+                                <a href="~/Account/Logout" class="btn btn-default btn-flat">Đăng xuất</a>
                             </div>
                         </li>
                     </ul>

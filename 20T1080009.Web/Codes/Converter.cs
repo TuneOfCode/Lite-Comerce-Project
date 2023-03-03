@@ -37,5 +37,44 @@ namespace _20T1080009.Web {
                 return null;
             }
         }
+        /// <summary>
+        /// Hàm chuyển đổi từ kiểu chuỗi sang kiểu số dấu chấm động
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
+        public static Decimal? StringToDecimal(string s) {
+            try {
+                return Decimal.Parse(s, CultureInfo.InvariantCulture);
+            } catch {
+                return null;
+            }
+        }
+        /// <summary>
+        /// Hàm chuyển đổi từ kiểu chuỗi sang kiểu số nguyên
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
+        public static int? StringToInteger(string s) {
+            try {
+                return int.Parse(s, CultureInfo.InvariantCulture);
+            } catch {
+                return null;
+            }
+        }
+        /// <summary>
+        /// Hàm chuyển đổi từ kiểu chuỗi sang kiểu đúng sai
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
+        public static bool? StringToBoolean(string s) {
+            try {
+                return Convert.ToBoolean(s);
+            } catch {
+                return null;
+            }
+        }
     }
 }

@@ -26,16 +26,16 @@ namespace _20T1080009.Web.Controllers {
             //ViewBag.TotalPages = Math.Ceiling((double)rowCount / PAGE_SIZE);
             //ViewBag.RowCount = rowCount;
             //ViewBag.SearchValue = searchValue;
-            Models.PaginationSearchInput conditon = new Models.PaginationSearchInput() {
+            Models.PaginationSearchInput condition = new Models.PaginationSearchInput() {
                 Page = 1,
                 PageSize= PAGE_SIZE,
                 SearchValue = ""
             };
             // trường hợp có session
             if (Session[SESSION_CONDITION] != null) {
-                conditon = Session[SESSION_CONDITION] as Models.PaginationSearchInput;
+                condition = Session[SESSION_CONDITION] as Models.PaginationSearchInput;
             }
-            return View(conditon);
+            return View(condition);
         }
 
         public ActionResult Search(Models.PaginationSearchInput condition) {

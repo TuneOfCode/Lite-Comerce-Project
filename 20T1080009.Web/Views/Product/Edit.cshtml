@@ -135,7 +135,7 @@
                             @item.Description
                         </td>
                         <td style="vertical-align:middle;">@item.DisplayOrder</td>
-                        <td style="vertical-align:middle;">@item.IsHidden</td>
+                        <td style="vertical-align:middle;">@(item.IsHidden ? "Đã bị ẩn" : "Đang hiện")</td>
                         <td style="vertical-align:middle; text-align:right">
                             <a class="btn btn-xs btn-primary" href="~/product/photo/edit/@item.ProductID/@item.PhotoID">
                                 <i class="fa fa-edit"></i>

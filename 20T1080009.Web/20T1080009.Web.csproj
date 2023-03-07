@@ -138,6 +138,9 @@
     <Compile Include="Models\CategorySearchOutput.cs" />
     <Compile Include="Models\CustomerSearchOutput.cs" />
     <Compile Include="Models\EmployeeSearchOutput.cs" />
+    <Compile Include="Models\OrderDetailsModel.cs" />
+    <Compile Include="Models\OrderSearchInput.cs" />
+    <Compile Include="Models\OrderSearchOutput.cs" />
     <Compile Include="Models\PaginationSearchInput.cs" />
     <Compile Include="Models\PaginationSearchOutput.cs" />
     <Compile Include="Models\ProductEditModel.cs" />
@@ -6537,6 +6540,11 @@
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Product\Photo.cshtml" />
     <Content Include="Views\Product\Search.cshtml" />
+    <Content Include="Views\Order\Details.cshtml" />
+    <Content Include="Views\Order\EditDetail.cshtml" />
+    <Content Include="Views\Order\SearchProducts.cshtml" />
+    <Content Include="Views\Order\Shipping.cshtml" />
+    <Content Include="Views\Order\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

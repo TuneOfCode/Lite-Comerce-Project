@@ -66,5 +66,59 @@ namespace _20T1080009.Web {
             }
             return list;
         }
+        /// <summary>
+        /// Lấy danh sách khách hàng
+        /// </summary>
+        /// <returns></returns>
+        public static List<SelectListItem> Customers() {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem() {
+                Value = "0",
+                Text = "--Chọn khách hàng--"
+            });
+            foreach (var item in CommonDataService.ListOfCustomers("")) {
+                list.Add(new SelectListItem() {
+                    Value = item.CustomerID.ToString(),
+                    Text = item.CustomerName
+                });
+            }
+            return list;
+        }
+        /// <summary>
+        /// Lấy danh sách nhân viên
+        /// </summary>
+        /// <returns></returns>
+        public static List<SelectListItem> Employees() {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem() {
+                Value = "0",
+                Text = "--Chọn nhân viên--"
+            });
+            foreach (var item in CommonDataService.ListOfEmployees("")) {
+                list.Add(new SelectListItem() {
+                    Value = item.EmployeeID.ToString(),
+                    Text = $"{item.FirstName} {item.LastName}"
+                });
+            }
+            return list;
+        }
+        /// <summary>
+        /// Lấy danh sách người giao hàng
+        /// </summary>
+        /// <returns></returns>
+        public static List<SelectListItem> Shippers() {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem() {
+                Value = "0",
+                Text = "--Chọn người giao hàng--"
+            });
+            foreach (var item in CommonDataService.ListOfShippers("")) {
+                list.Add(new SelectListItem() {
+                    Value = item.ShipperID.ToString(),
+                    Text = item.ShipperName
+                });
+            }
+            return list;
+        }
     }
 }

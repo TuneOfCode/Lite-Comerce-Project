@@ -13,6 +13,7 @@ namespace _20T1080009.Web.Controllers {
     public class CategoryController : Controller {
         private const int PAGE_SIZE = 5;
         private const string SESSION_CONDITION = "CategoryCondition";
+        private const string ERROR_MESSAGE = "ErrorMessage";
         /// <summary>
         /// 
         /// </summary>
@@ -35,6 +36,7 @@ namespace _20T1080009.Web.Controllers {
             if (Session[SESSION_CONDITION] != null) {
                 condition = Session[SESSION_CONDITION] as Models.PaginationSearchInput;
             }
+            ViewBag.ErrorMessage = TempData[ERROR_MESSAGE] ?? "";
             return View(condition);
         }
 
@@ -86,7 +88,9 @@ namespace _20T1080009.Web.Controllers {
         [HttpPost]
         public ActionResult Save(Category data) {
             if (string.IsNullOrWhiteSpace(data.CategoryName)) {
-                ModelState.AddModelError(nameof(data.CategoryName), "Tên loại hàng không được để trống");
+                //ModelState.AddModelError(nameof(data.CategoryName), "Tên loại hàng không được để trống");
+                TempData[ERROR_MESSAGE] = "Tên loại hàng không được để trống";
+                return RedirectToAction("Index");
             }
             data.Description = data.Description ?? "";
             if (!ModelState.IsValid) {

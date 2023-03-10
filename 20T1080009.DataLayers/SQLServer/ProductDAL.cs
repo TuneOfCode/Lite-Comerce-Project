@@ -134,10 +134,10 @@ namespace _20T1080009.DataLayers.SQLServer {
             bool result = false;
             using (SqlConnection conn = OpenConnection()) {
                 SqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = @"DELETE FROM Products WHERE ProductID = @ProductID 
-                                        AND NOT EXISTS(SELECT * FROM ProductAttributes WHERE ProductID = @ProductID)
-                                        AND NOT EXISTS(SELECT * FROM ProductPhotos WHERE ProductID = @ProductID)
-                                        AND NOT EXISTS(SELECT * FROM OrderDetails WHERE ProductID = @ProductID)";
+                cmd.CommandText = @"DELETE FROM OrderDetails WHERE ProductID = @ProductID;
+                                    DELETE FROM ProductPhotos WHERE ProductID = @ProductID;
+                                    DELETE FROM ProductAttributes WHERE ProductID = @ProductID;
+                                    DELETE FROM Products WHERE ProductID = @ProductID;";
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = conn;
                 cmd.Parameters.AddWithValue("@ProductID", productID);

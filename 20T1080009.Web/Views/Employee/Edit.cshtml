@@ -37,7 +37,7 @@
                                 <input type="text" class="form-control" style="width: 95%;" name="birthday"
                                        value="@string.Format("{0:dd/MM/yyyy}", Model.BirthDate)" placeholder="">
                             } else {
-                                <input type="text" class="form-control" style="width: 95%;" name="birthday" 
+                                <input type="text" class="form-control" style="width: 95%;" name="birthday"
                                        placeholder="Ví dụ: @string.Format("{0:dd/MM/yyyy}", DateTime.Now)">
                             }
 
@@ -49,6 +49,7 @@
 
                 <div style="margin-right: 5%;">
                     <div class="form-group">
+                        @Html.ValidationMessageFor(m => m.Photo, "", new { @style = "color: #f00;" })
                         <div class="dropzone box" style="width: 100px; height: 80px; border-radius: 3px; text-align: center;">
                             @if (@Model.Photo != null) {
                                 <img id="Photo" src="@Model.Photo" width="100" class="upload-icon"

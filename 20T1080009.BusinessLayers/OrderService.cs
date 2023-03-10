@@ -78,8 +78,7 @@ namespace _20T1080009.BusinessLayers {
             // - Đơn hàng đang được giao: 3
             // - Đơn hàng đã được hoàn tất trước đó: 4
             // - Đơn hàng đã bị từ chối trước đó: -2
-            if (data.Status == OrderStatus.SHIPPING 
-                    || data.Status == OrderStatus.FINISHED 
+            if (data.Status == OrderStatus.FINISHED 
                     || data.Status == OrderStatus.REJECTED) {
                 return false;
             }
@@ -231,7 +230,18 @@ namespace _20T1080009.BusinessLayers {
         /// <param name="productID"></param>
         /// <returns></returns>
         public static bool DeleteOrderDetail(int orderID, int productID) {
-            return orderDB.DeleteDetail(orderID, productID);
+            // xử lý trạng thái hiện tại
+            // muốn xoá đơn hàng thì trạng thái hiện tại phải:
+            // - đơn hàng đó có trạng thái khởi tạo
+            Order data = GetOrder(orderID);
+            if (data == null) {
+                return false;
+            }
+            if (data.Status == OrderStatus.INIT) {
+                return orderDB.DeleteDetail(orderID, productID);
+            }
+
+            return false;
         }
     }
 }

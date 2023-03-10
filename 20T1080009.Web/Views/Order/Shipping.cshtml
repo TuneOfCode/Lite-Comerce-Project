@@ -2,17 +2,19 @@
 @{
     Layout = null;
     string OrderID = ViewBag.OrderID.ToString();
+    string CountProducts = ViewBag.CountProducts.ToString();
 }
 
 <div class="modal-dialog">
     <div class="modal-content">
-        <form action="~/Order/Shipping" method="post">
+        <form id="formShipping" action="~/Order/Shipping" method="post">
             <div class="modal-header bg-primary">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Cập nhật chi tiết đơn hàng</h4>
             </div>
             <div class="modal-body">
                 <input type="hidden" name="id" value="@OrderID" />
+                <input type="hidden" name="countProducts" value="@CountProducts" />
                 <div class="form-group">
                     <label class="control-label">Người giao hàng:</label>
                     <select class="form-control" name="shipperID">
@@ -20,6 +22,7 @@
                             <option value="@item.Value">@item.Text</option>
                         }
                     </select>
+                    <span id="errMsg" style="color: #f00;"></span>
                 </div>
             </div>
             <div class="modal-footer">
@@ -33,4 +36,44 @@
         </form>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $('#formShipping').submit(function (e) {
+            e.preventDefault();
+            var url = $(this).prop("action");
+            var postData = $(this).serializeArray();
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: postData,
+                error: function () {
+                    alert("Your request is not valid!");
+                },
+                success: function (data) {
+                    if (data.Code === 0) {
+                        $("#errMsg").html(data.Message);
+                    }
+                    else {
+                        // xử lý phần ngày tháng năm
+                        const microsoftJSONDate = data.Data.ShippedTime;
+                        const milliseconds = parseInt(microsoftJSONDate.substring(6, microsoftJSONDate.length - 2));
+                        const date = new Date(milliseconds);
+                        const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+                        const month = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+                        const dateFormat = `${day}/${month}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
 
+                        $("#dialogModal").empty();
+                        $("#dialogModal").modal('hide');
+                        $('#btnDeleteOrder').hide();
+                        $('.listBtnShipping').hide();
+                        $('#listBtnAccept').show();
+                        $(`#ShipperName`).text(data.Data.ShipperName);
+                        $(`#ShipperPhone`).text(data.Data.ShipperPhone);
+                        $(`#ShippedTime`).text(dateFormat);
+                        $(`#StatusDescription`).text(data.Data.StatusDescription);
+                    }
+                }
+            });
+        });
+    });
+</script>

@@ -100,14 +100,10 @@ namespace _20T1080009.Web.Controllers {
                 data.BirthDate = birthDate.Value;
             }
 
-            if (uploadPhoto != null) {
-
-                string storage = Server.MapPath($"~/{STORAGE_UPLOAD_FILE_EMPLOYEE}");
-                string fileName = $"{DateTime.Now.Ticks}-{uploadPhoto.FileName}";
-                string filePath = System.IO.Path.Combine(storage, fileName);
-                uploadPhoto.SaveAs(filePath);
-                data.Photo = $"/{STORAGE_UPLOAD_FILE_EMPLOYEE}/{fileName}";
+            if (uploadPhoto == null && data.EmployeeID == 0) {
+                ModelState.AddModelError(nameof(data.Photo), "Vui lòng thêm ảnh");
             }
+
             // kiểm tra xem thử email có bị trùng hay không?
             var employees = CommonDataService.ListOfEmployees(data.Email);
             if (employees.Count > 0 && data.EmployeeID == 0)
@@ -120,6 +116,14 @@ namespace _20T1080009.Web.Controllers {
             if (!ModelState.IsValid) {
                 ViewBag.Title = data.EmployeeID == 0 ? "Bổ sung nhân viên" : "Cập nhật nhân viên";
                 return View("Edit", data);
+            }
+            if (uploadPhoto != null) {
+
+                string storage = Server.MapPath($"~/{STORAGE_UPLOAD_FILE_EMPLOYEE}");
+                string fileName = $"{DateTime.Now.Ticks}-{uploadPhoto.FileName}";
+                string filePath = System.IO.Path.Combine(storage, fileName);
+                uploadPhoto.SaveAs(filePath);
+                data.Photo = $"/{STORAGE_UPLOAD_FILE_EMPLOYEE}/{fileName}";
             }
             if (data.EmployeeID == 0) {
                 CommonDataService.AddEmployee(data);

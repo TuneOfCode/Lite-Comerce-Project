@@ -1,6 +1,10 @@
 ﻿using _20T1080009.BusinessLayers;
 using _20T1080009.DomainModels;
 using Newtonsoft.Json;
+using System;
+using System.Net;
+using System.Security.Policy;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -16,7 +20,12 @@ namespace _20T1080009.Web.Controllers {
         /// <returns></returns>
         [AllowAnonymous] // cho phép login sẽ vào được
         [HttpGet]
+        [OutputCache(NoStore = true, Location = System.Web.UI.OutputCacheLocation.None)]
         public ActionResult Login() {
+            // trường hợp đã đăng nhập
+            if (Request.Cookies[FormsAuthentication.FormsCookieName] != null) {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
         /// <summary>
@@ -25,8 +34,8 @@ namespace _20T1080009.Web.Controllers {
         /// <param name="userName"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        [ValidateAntiForgeryToken]
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult Login(string userName = "", string password = "") {
             ViewBag.UserName = userName ?? "";
@@ -39,6 +48,10 @@ namespace _20T1080009.Web.Controllers {
             if (userAccount == null) {
                 ModelState.AddModelError("", "Đăng nhập thất bại");
                 return View();
+            }
+            // trường hợp đã đăng nhập
+            if (Request.Cookies[FormsAuthentication.FormsCookieName] != null) {
+                return RedirectToAction("Index", "Home");
             }
             // chuyển dữ liệu về string để đưa vào trong cookie
             var data = JsonConvert.SerializeObject(userAccount);
@@ -59,16 +72,22 @@ namespace _20T1080009.Web.Controllers {
         [HttpPost]
         public ActionResult ChangePassword(string userName = "", string oldPassword = "", string newPassword = "") {
             ViewBag.OldPassword = oldPassword ?? "";
-            if (string.IsNullOrWhiteSpace(userName) 
-                || string.IsNullOrWhiteSpace(oldPassword) 
+            if (string.IsNullOrWhiteSpace(userName)
+                || string.IsNullOrWhiteSpace(oldPassword)
                 || string.IsNullOrWhiteSpace(newPassword)) {
                 ModelState.AddModelError("", "Thông tin không đầy đủ");
-                return View();
             }
+            if (newPassword == oldPassword) {
+                ModelState.AddModelError("", "Mật khẩu mới không được trùng với mật khẩu cũ");
+            }
+
 
             bool isChangePassword = UserAccountService.ChangePasword(AccountTypes.Employee, userName, oldPassword, newPassword);
             if (!isChangePassword) {
                 ModelState.AddModelError("", "Thay đổi mật khẩu thất bại");
+            }
+            if (!ModelState.IsValid) {
+                ViewBag.Title = "Thay đổi mật khẩu";
                 return View();
             }
             //ViewBag.messageSuccess = "Thay đổi mật khẩu thành công";

@@ -5,7 +5,7 @@
 
 <div class="modal-dialog">
     <div class="modal-content">
-        <form action="~/Order/UpdateDetail" method="post" class="form-horizontal">
+        <form id="formEditDetail" action="~/Order/UpdateDetail" method="post" class="form-horizontal">
             @Html.AntiForgeryToken()
             <div class="modal-header bg-primary">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -39,6 +39,7 @@
                         <input type="text" class="form-control" name="SalePrice" value="@Model.SalePrice" />
                     </div>
                 </div>
+                <span id="errMsg" style="color: #f00;"></span>
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">
@@ -52,3 +53,35 @@
     </div>
 </div>
 
+<script>
+    $(document).ready(function () {
+        $("#formEditDetail").submit(function (e) {
+            e.preventDefault();
+            var url = $(this).prop("action");
+            var postData = $(this).serializeArray();
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: postData,
+                error: function () {
+                    alert("Your request is not valid!");
+                },
+                success: function (data) {
+                    if (data.Code === 0) {
+                        $("#errMsg").html(data.Message);
+                    }
+                    else {
+                        $("#dialogModal").empty();
+                        $("#dialogModal").modal('hide');
+                        $(`#Quantity-${data.Data.ProductID}`).text(data.Data.Quantity);
+                        $(`#SalePrice-${data.Data.ProductID}`).text(data.Data.SalePrice.toFixed(4));
+                        $(`#TotalPrice-${data.Data.ProductID}`).text(data.Data.TotalPrice.toFixed(4));
+                        //window.location.reload();
+                    }
+                }
+            });
+
+        });
+    })
+</script>

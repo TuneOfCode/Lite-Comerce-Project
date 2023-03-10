@@ -13,6 +13,7 @@ namespace _20T1080009.Web.Controllers {
     public class ShipperController : Controller {
         private const int PAGE_SIZE = 5;
         private const string SESSION_CONDITION = "ShipperCondition";
+        private const string ERROR_MESSAGE = "ErrorMessage";
         /// <summary>
         /// Nhận dữ liệu đầu vào
         /// </summary>
@@ -27,6 +28,7 @@ namespace _20T1080009.Web.Controllers {
             if (Session[SESSION_CONDITION] != null) {
                 condition = Session[SESSION_CONDITION] as Models.PaginationSearchInput;
             }
+            ViewBag.ErrorMessage = TempData[ERROR_MESSAGE] ?? "";
             return View(condition);
         }
         /// <summary>
@@ -81,9 +83,13 @@ namespace _20T1080009.Web.Controllers {
         public ActionResult Save(Shipper data) {
             if (string.IsNullOrWhiteSpace(data.ShipperName)) {
                 ModelState.AddModelError(nameof(data.ShipperName), "Tên người giao hàng không được để trống");
+                TempData[ERROR_MESSAGE] = "Tên người giao hàng không được để trống";
+                return RedirectToAction("Index");
             }
             if (string.IsNullOrWhiteSpace(data.Phone)) {
                 ModelState.AddModelError(nameof(data.Phone), "Số điện thoại của người giao hàng không được để trống");
+                TempData[ERROR_MESSAGE] = "Số điện thoại của người giao hàng không được để trống";
+                return RedirectToAction("Index");
             }
             if (!ModelState.IsValid) {
                 ViewBag.Title = data.ShipperID == 0 ? "Bổ sung người giao hàng" : "Cập nhật người giao hàng";

@@ -1,12 +1,18 @@
 ﻿@*@model IEnumerable<_20T1080009.DomainModels.Category>*@
 @model _20T1080009.Web.Models.PaginationSearchInput
 @{
-
+    string errorMessage = ViewBag.ErrorMessage.ToString() ?? "";
 }
 
 <div class="box box-primary">
     <div class="box-body">
-
+        @*Hiển thị lỗi ở đây nếu có*@
+        @if (!string.IsNullOrWhiteSpace(errorMessage)) {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Lỗi!</strong> @errorMessage
+            </div>
+         } 
         @*thành phần tìm kiếm*@
         <form id="formSearch" action="~/Category/Search">
             <div class="input-group">
@@ -20,8 +26,8 @@
 
                     @*Nút thêm dữ liệu*@
                     @*<a href="~/Category/Create" class="btn btn-primary" style="margin-left: 5px;">
-                            <i class="fa fa-plus" style="margin-right: 2px;"></i> Bổ sung
-                        </a>*@
+                        <i class="fa fa-plus" style="margin-right: 2px;"></i> Bổ sung
+                    </a>*@
                     <button id="btnAddCategory" onclick="showCategoryModal('/Category/Create')"
                             onmouseover="showCategoryModal('/Category/Create')" type="button"
                             class="btn btn-primary"
